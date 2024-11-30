@@ -7,6 +7,10 @@ sys.path.insert(0, dir_path)
 
 from utils_simulation import createHospitals, set_hospitals, get_hospitals, print_line
 
+# utilizzando brownie importo il contratto FederatedLearning.sol per utilizzarlo
+# (il contratto deve essere nella directoru 'contracts')
+# importo l'oggetto 'accounts' da brownie. Rappresenta la lista dei contratti partecipanti alla blockchain.
+# quando usi una blockchain locale come GANACHE, brownie carica gli account forniti dal nodo ganache
 from brownie import FederatedLearning, accounts
 import deploy_FL
 
@@ -29,6 +33,7 @@ def main():
     print("[1]\tHospitals have been created")
     print_line("*")
 
+    # KYC = Know Your Customer process - identity verification
     """
     2)  KYC Process and Off-Chain Hospitals Registration
         - This must be done before the blockchain

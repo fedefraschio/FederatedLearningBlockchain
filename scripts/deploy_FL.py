@@ -6,7 +6,8 @@ LOCAL_BLOCKCHAIN_ENVIRONMENTS = ["development", "fl-local"]
 DECIMALS = 8
 STARTING_PRICE = 200000000000  # this is 2,000
 
-
+# returns first account of the account list
+# the accounts are the accounts from GANACHE
 def get_account():
     if (
         network.show_active() in LOCAL_BLOCKCHAIN_ENVIRONMENTS
