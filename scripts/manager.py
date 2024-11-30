@@ -19,6 +19,10 @@ from utils_manager import *
 
 from brownie import FederatedLearning, network
 from deploy_FL import get_account
+
+# ipfshttpclient è una libreria Python che consente di interagire con IPFS (InterPlanetary File System) 
+# tramite l'API HTTP. IPFS è un protocollo distribuito per archiviare e condividere file in modo decentralizzato.
+# Qui IFPS viene usato per salvare i vari weights
 import ipfshttpclient
 
 from sklearn.metrics import classification_report
@@ -54,9 +58,11 @@ y_test = get_y_test()
 
 
 def federated_learning():
-    # retrieving the parameters IPFS hashes loaded by the collaborators
+    # retrieving the parameters IPFS (Interplanetary File System) hashes loaded by the collaborators
+    # here getting the collaborators 
     hospitals_addresses = FL_contract.get_collaborators({"from": manager})
     retrieved_weights_hash = {}
+    # for each collaborator, retrieve the weights using FederatedLearning.retrieve_weights()
     for hospital_address in hospitals_addresses:
         retrieved_weights_hash[hospital_address] = FL_contract.retrieve_weights(
             hospital_address, {"from": manager}
@@ -68,6 +74,7 @@ def federated_learning():
     for hospital_address in retrieved_weights_hash:
         weights_hash = retrieved_weights_hash[hospital_address].decode("utf-8")
         start_time = time.time()
+        # recupera il file da IFPS usando il suo hash
         weights_encoded = IPFS_client.cat(weights_hash)
         print("IPFS 'cat' time:", str(time.time() - start_time))
         weights = weights_decoding(weights_encoded)
@@ -77,7 +84,7 @@ def federated_learning():
     hospitals_number = len(hospitals_weights)
     weights_dim = len(hospitals_weights[list(hospitals_weights.keys())[0]])
 
-    # computing the AVERAGE of the collaborators weights
+    # computing the AVERAGE of the collaborators weights   
     averaged_weights = []
 
     for i in range(weights_dim):

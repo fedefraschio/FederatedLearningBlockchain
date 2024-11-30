@@ -48,6 +48,7 @@ def main():
     print("[3]\tFederatedLearning contract has been deployed - Blockchain implemented")
     print_line("*")
 
+    # for each fake hospital assign an account from the mock blockchain
     """
     4)  Assign Blockchain addresses to Hospitals
     """
